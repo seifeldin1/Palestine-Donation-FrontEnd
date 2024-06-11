@@ -80,33 +80,35 @@ const UserDetailPage:React.FC=()=>{
     },[userInfo.country])
     */
 
-    const handleChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        const {name , value} = e.target;
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
         if (name === 'nationalID' && value.length !== 14) {
             setNationalIDError('National ID must be exactly 14 digits');
         } else if (name === 'phoneNumber' && value.length !== 11) {
             setPhoneError('Phone number must be exactly 11 digits');
-        }
-        else {
-            setError('');
+        } else {
             setNationalIDError('');
             setPhoneError('');
-            setProceed(true);
         }
     
-        setUserInfo(prevState=>({...prevState , [name]:value}));
+        setUserInfo((prevState) => ({ ...prevState, [name]: value }));
     }
 
-    const submitHandler=async()=>{
-        if(Object.values(userInfo).some(value=>value==='')){ 
-            //alternative: userInfo.firstName===''|| userInfo.lastName===''||userInfo.email===''|| userInfo.country===''
-                        //|| userInfo.city===''|| userInfo.phoneNumber===''|| userInfo.nationalID===''|| userInfo.age===''
+    const submitHandler = () => {
+      
+        if (!Object.values(userInfo).every((value) => value !== '')) {
             setProceed(false);
-            setError('There is an incompelete field');
-        }
-        else{
-            setProceed(true);
-            setError('');
+            setError('There is an incomplete field');
+        } 
+        else {
+            if(parseInt(userInfo.age)>0 && parseInt(userInfo.age)<150){
+                setProceed(true);
+                setError('');
+            } 
+            else{
+                setProceed(false);
+                setError('Sorry, You have entered a wrong age');
+            }
         }
     }
 
@@ -411,7 +413,7 @@ const UserDetailPage:React.FC=()=>{
                         variant="contained"
                         color="primary"
                         onClick={submitHandler}
-                        disabled={userInfo.age<'1' ||!userInfo.city||!userInfo.country||!userInfo.email||!userInfo.firstName||!userInfo.lastName||!userInfo.nationalID||!userInfo.phoneNumber}
+                        
                         className="transition ease-in-out duration-150 transform hover:scale-105"
                         >
                           <Link to={proceed?"/home/userInfo/payment":"#"} > Proceed to Payment </Link>  
