@@ -15,7 +15,7 @@ const VodafoneVerification:React.FC=()=>{
         setPin(value);
 
         if (value.length!==6 && !/^\d{6}$/.test(value)) {
-            setError("Invalid Pin");
+            setError("Invalid PIN");
         } else {
             
             setError("");
@@ -25,7 +25,7 @@ const VodafoneVerification:React.FC=()=>{
 
     const handleProceeding = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         if (pin.length !== 6 || error) {
-            setError("Invalid Pin");
+            setError("Invalid PIN");
             e.preventDefault();
         }
     };
